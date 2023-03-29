@@ -7,10 +7,14 @@ function App() {
 
   function handleSubmit() {
     let task = {
+      id: Date.now(),
       label: textInput,
       done: false,
     }
     updateTodos((todos)=> [...todos, task])
+  }
+  function handleDelete(id) {
+    updateTodos((todos) => todos.filter(task => task.id !== id))
   }
   console.log(todos)
   return (
@@ -25,9 +29,15 @@ function App() {
       <input className="btn btn-primary" type="submit" value="Submit"
       onClick={()=> handleSubmit()}
       />
-    <div>{todos.map(task => {
-      return task.label
-    })}</div>
+    <div>
+        {todos.map(task => (
+          <div key={task.id}>
+            {task.label} 
+            <input className="btn btn-primary" type="delete" value="Delete" onClick={() => handleDelete(task.id)}
+            /> 
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
